@@ -43,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING
     },
+    phone: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
     status: {
       allowNull: false,
       defaultValue: 1,
