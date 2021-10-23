@@ -8,6 +8,8 @@ const appointmentController = require('../controllers/appointments');
 const uploadController = require('../controllers/uploads');
 const downloadController = require('../controllers/downloads');
 const histClinicaController = require('../controllers/histClinica');
+// Lo nuevo
+const eventosCrontroller = require('../controllers/eventosCtr');
 const Auth = require('../auth/authorization');
 
 module.exports = (app) => {
@@ -42,10 +44,10 @@ module.exports = (app) => {
   //app.get('/api/feature/list', featureController.list);
   //app.get('/api/feature/find/name/:name', featureController.find);
 
-  // API Services Patients
-  app.post('/api/patient/update', patientController.update);
-  app.get('/api/patient/list', patientController.list);
-  app.get('/api/patient/find/dni/:dni', patientController.find);
+  // API Servicio Eventos
+  //app.post('/api/patient/update', patientController.update);
+  //app.get('/api/patient/list', patientController.list);
+  //app.get('/api/patient/find/dni/:dni', patientController.find);
 
   // API Services Availability
   app.post('/api/availability/create', availabilityController.create);
@@ -82,5 +84,13 @@ module.exports = (app) => {
   app.post('/api/historia-clinica/update-patologias', histClinicaController.updatePatologias);
   app.post('/api/historia-clinica/update-consultas', histClinicaController.updateConsulta);
   app.get('/api/historia-clinica/find/patient/:patient', histClinicaController.getHistClinica);
+
+  // Nuevas implementaciones
+  
+  // API Servicio Eventos
+  app.post('/api/evento/create', eventosCrontroller.create);
+  app.post('/api/evento/update', eventosCrontroller.update);
+  app.get('/api/evento/list', eventosCrontroller.list);
+  app.get('/api/evento/find/dni/:dni', eventosCrontroller.find)
 }
 
