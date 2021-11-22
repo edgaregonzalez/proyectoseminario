@@ -7,7 +7,7 @@ module.exports = {
         var parametros = {
             titulo: req.body.titulo,
             estado: req.body.estado,
-            descripcion: req.body.descripcion
+            descripcion: req.body.descripcion,
             region: req.body.region,
             imagen: req.body.imagen
         }
@@ -15,7 +15,6 @@ module.exports = {
             .create({
                 titulo: parametros.titulo,
                 estado: parametros.estado,
-                territorio: parametros.territorio,
                 descripcion: parametros.descripcion,
                 region: parametros.region,
                 imagen: parametros.imagen
@@ -39,7 +38,6 @@ module.exports = {
                 else {
                     if (parametros.titulo == null) { parametros.titulo = result.titulo; }
                     if (parametros.estado == null) { parametros.estado = result.estado; }
-                    if (parametros.territorio == null) { parametros.estado = result.territorio; }
                     if (parametros.descripcion == null) { parametros.descripcion = result.descripcion; }
                     if (parametros.region == null) { parametros.region = result.region; }
                     if (parametros.imagen == null) { parametros.imagen = result.imagen; }
