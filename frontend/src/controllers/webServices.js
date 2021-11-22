@@ -43,7 +43,12 @@ const urlWebServices = {
      * MercadoPago
      */
     createMPPreference: rutaBack + "api/donaciones/crear",
-    createMPPlan: rutaBack + "api/donaciones/suscripcionPlan",
+    createMPPlan: rutaBack + "api/donaciones/suscripcion/crearPlan",
+
+    /*
+     * Mediciones
+     */
+    agregarInteres: rutaBack + "api/medicion/suscripcion",
 
     /*
      * Permissions
