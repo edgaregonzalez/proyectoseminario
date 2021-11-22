@@ -13,6 +13,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      territorio: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       descripcion: {
         allowNull: false,
         type: Sequelize.STRING
@@ -22,11 +26,11 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
