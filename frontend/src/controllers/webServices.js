@@ -31,6 +31,7 @@ const urlWebServices = {
      */
     listEventosValidos: rutaBack + "api/eventos/listarValidos",
     getEvento: rutaBack + "api/eventos/ver/id=:id",
+    createEvento: rutaBack + "api/eventos/crear",
 
     /*
      * Iniciativas
