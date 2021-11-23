@@ -37,6 +37,7 @@ const urlWebServices = {
      * Iniciativas
      */
     listIniciativasPorEvento: rutaBack + "api/iniciativas/listar/evento/:evento",
+    listIniciativasPorOrganizacion: rutaBack + "api/iniciativas/listar/organizacion/:organizacion",
     listIniciativas: rutaBack + "api/iniciativas/listar",
     getDetalleIniciativa: rutaBack + "api/iniciativas/ver/iniciativa/:iniciativa",
 
