@@ -1,4 +1,5 @@
 const db = require('../models');
+const sequelize = require('sequelize');
 const eventos = db.eventos;
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
         var parametros = {
             titulo: req.body.titulo,
             estado: req.body.estado,
-            descripcion: req.body.descripcion, 
+            descripcion: req.body.descripcion,
             region: req.body.region,
             imagen: req.body.imagen
         }
@@ -81,14 +82,42 @@ module.exports = {
     listar(req, res) {
         var parametros = {}
         return eventos
-            .findAll()
+            .findAll({
+                attributes: {
+                    include: [
+                        [
+                            sequelize.literal(`(
+                                SELECT COUNT(*)
+                                FROM iniciativas AS iniciativas
+                                WHERE
+                                iniciativas.evento = eventos.id
+                                )`),
+                            'iniciativas'
+                        ]
+                    ]
+                }
+            })
             .then(result => res.status(200).send(result))
             .catch(error => res.status(400).send({ message: "Ocurrio un error al intentar buscar los eventos.", error }))
     },
     listarEventosValidos(req, res) {
         var parametros = { }
         return eventos
-            .findAll({ where: { estado: true } })
+            .findAll({
+                where: { estado: true },
+                attributes: {
+                    include: [
+                        [
+                            sequelize.literal(`(
+                                SELECT COUNT(*)
+                                FROM iniciativas AS iniciativas
+                                WHERE
+                                iniciativas.evento = eventos.id
+                                )`),
+                            'iniciativas'
+                        ]
+                    ]
+                } })
             .then(result => res.status(200).send(result))
             .catch(error => res.status(400).send({ message: "Ocurrio un error al intentar buscar los eventos.", error }))
     },
@@ -97,7 +126,21 @@ module.exports = {
             estado: req.params.estado,
         }
         return eventos
-            .findAll({ where: { estado: parametros.estado } })
+            .findAll({
+                where: { estado: parametros.estado },
+                attributes: {
+                    include: [
+                        [
+                            sequelize.literal(`(
+                                SELECT COUNT(*)
+                                FROM iniciativas AS iniciativas
+                                WHERE
+                                iniciativas.evento = eventos.id
+                                )`),
+                            'iniciativas'
+                        ]
+                    ]
+                } })
             .then(result => res.status(200).send(result))
             .catch(error => res.status(400).send({ message: "Ocurrio un error al intentar buscar los eventos.", error }))
     },
