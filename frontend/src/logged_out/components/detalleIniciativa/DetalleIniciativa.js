@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { 
   Grid, 
@@ -20,8 +20,15 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import { borderRadius, flexbox } from "@material-ui/system";
 // < Formulario
 import { createPreference, createPlan } from "../../../controllers/api/api.mercadopago";
+import { sumarInteres } from "../../../controllers/api/api.mediciones";
 import useMercadoPago from '../../../controllers/hooks/useMercadoPago';
 import { getIniciativa } from "../../../controllers/api/api.iniciativas";
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const theme = {
   spacing: 8,
@@ -114,6 +121,7 @@ function DetalleIniciativa(props) {
   const { theme, classes } = props;
   const history = useHistory();
   const [formValues, setFormValues] = useState(defaultValues);
+  const email = useRef();
 
   const idIniciativa = props.match.params.idIniciativa;
 
@@ -163,41 +171,71 @@ function DetalleIniciativa(props) {
       });
    
   };
-
+/*
   const irASuscripcion = (event) => {
     event.preventDefault();
 
-    const orderData = {
-      monto: 500,
-      titulo: "Colaboración mensual para Fundación Vida Silvestre"
+    const interes = {
+      email: "gargan.p@gmail.com",
     };
 
-    createPlan(orderData)
+    sumarInteres(interes)
       .then(response => {
         if (response.success) {
-          alert("TODO BIENE");
+         console.log(response.result);
 
         } else {
           
           alert("Error");
         }
       });
-/*
-
-    history.push(
-      "/suscripcion",
-      [{
-        iniciativa: 1,
-        organizacion: 1
-      }])*/
   }
-
+*/
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
       [name]: value,
     });
+  };
+
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClose = () => {
+    let interesData = {
+      email: null
+    }
+
+    sumarInteres(interesData)
+      .then(response => {
+        if (response.success) {
+          console.log('Medicion guardada correctamente');
+        } else {
+          console.log("Error guardando medicion");
+        }
+      });
+    setDialogOpen(false);
+  };
+
+  const handleSuscribir = () => {
+    let interesData = {
+      email: email.current.value ? email.current.value : null
+    }
+
+    sumarInteres(interesData)
+      .then(response => {
+        if (response.success) {
+          console.log('Medicion guardada correctamente');
+        } else {
+          console.log("Error guardando medicion");
+        }
+      });
+
+      setDialogOpen(false);
   };
 
 
@@ -294,10 +332,32 @@ function DetalleIniciativa(props) {
             <Typography variant="body1" paragraph align="center">
               ó
             </Typography>
-            <Link style={{cursor: 'pointer', fontSize: '1rem'}} onClick={irASuscripcion}>
+            <Link style={{cursor: 'pointer', fontSize: '1rem'}} onClick={handleClickOpen}>
               Suscribite para colaborar con Vida Silvestre mensualmente
             </Link>
           </Box>
+          <Dialog open={dialogOpen} onClose={handleClose}>
+            <DialogTitle>Esta opción no está disponible todavía</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Dejanos tu mail si querés que te avisemos cuando se lance. No te preocupes, no mandamos spam.  
+              </DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="email"
+                label="Email Address"
+                type="email"
+                fullWidth
+                variant="standard"
+                inputRef={email}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancelar</Button>
+              <Button onClick={handleSuscribir}>Subscribirme</Button>
+            </DialogActions>
+          </Dialog>
          {/* <Box>
             <Typography variant="h2" align="left" className={classes.h2Style}>
               ¡Postulate para ayudar!

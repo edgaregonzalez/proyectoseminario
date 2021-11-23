@@ -40,7 +40,7 @@ const styles = (theme) => ({
     [theme.breakpoints.up("lg")]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),
-      width: "70%",
+     // width: "70%",
       marginLeft: "auto",
       marginRight: "auto",
     },

@@ -2,6 +2,7 @@ const usuariosCTLR = require('../controllers/usuarios');
 const eventosCTLR = require('../controllers/eventos');
 const iniciativasCTLR = require('../controllers/iniciativas');
 const postulacionesCTLR = require('../controllers/postulaciones');
+const medicionesCTLR = require('../controllers/mediciones');
 const mercadopagoAPI = require('../controllers/mercadopago');
 const emailCTLR = require('../controllers/email');
 
@@ -67,6 +68,9 @@ module.exports = (app) => {
   app.post('/api/donaciones/crear', mercadopagoAPI.createPreference);
   app.post('/api/donaciones/suscripcion/crearPlan', mercadopagoAPI.createPlan);
   app.post('/api/donaciones/suscripcion/suscribir', mercadopagoAPI.suscribeToPlan);
+
+  // Mediciones
+  app.post('/api/medicion/suscripcion', medicionesCTLR.crear);
 
   // Email
   app.post('/api/email/enviar', auth.administrador, emailCTLR.enviarMail);

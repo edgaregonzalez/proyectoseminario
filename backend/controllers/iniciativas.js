@@ -100,7 +100,12 @@ module.exports = {
     {
         var parametros = { }
         return iniciativas
-            .findAll({ include: [{ model: organizaciones, as: "organizaciones" }] })
+            .findAll({ 
+                include: [{
+                    all: true,
+                    nested: true
+                }]
+            })
             .then(result => res.status(200).send(result))
             .catch(error => res.status(400).send({ message: "Error al intentar buscar las iniciativas.", error }))
      },
