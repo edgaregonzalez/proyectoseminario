@@ -88,3 +88,47 @@ export const listarOrganizaciones = async function()  {
      return result;
    }
 }
+
+export const cambiarAprobacion = async function(organizacion)  {
+ // url
+ let url = urlWebServices.createOrganizacion;
+ var token = localStorage.getItem('x');
+ // Genero formulario con datos a pasar
+ let formData = new URLSearchParams();
+ formData.append('id', organizacion.id);
+ formData.append('aprobacion', organizacion.aprobacion);
+
+
+ try {
+     // Hago llamada al endpoint
+     let response =  await fetch(url, {
+       method: 'POST',
+       mode: 'cors',
+       headers: {
+         'Accept': 'application/x-www-form-urlencoded',
+         'Origin': 'http://localhost:3000/',
+         'Content-type': 'application/x-www-form-urlencoded',
+         'x-access-token': `${token}`
+       },
+       body: formData
+     });
+
+     let data = await response.json();
+
+     let result = {
+         success: (response.status === 200 ? true : false),
+         response: data
+     }
+
+     return result;
+     
+   } catch(e) {
+     let result = {
+         success: false,
+         response: e
+     };
+     console.log("ERROR:");
+     console.log(result);
+     return result;
+   }
+}
