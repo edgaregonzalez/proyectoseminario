@@ -17,17 +17,19 @@ const validarUsuario = (value) => {
 
         else if (role === entities.idOrganizacion) {
             value.filter(x => {
-                if (x.name === "Principal" || x.name === "Recetas" || x.name === "Salir") {
+                if (x.name === "Principal Paciente" || x.name === "Salir") {
                     menuItemValidado.push(x);
                 }
+                console.log(role)
             });
         }
 
         else if (role === entities.idAmin) {
             value.filter(x => {
-                if (x.name === "Principal" || x.name === "Recetas" || x.name === "Organizaciones" || x.name === "Salir") {
+                if (x.name === "Principal" || x.name === "Organizaciones" || x.name === "Salir") {
                     menuItemValidado.push(x);
                 }
+            console.log(role)
             });
         }
 
@@ -66,11 +68,11 @@ console.log(visible);
     return visible;
 };
 
-const esVisibleSecretario = () => {
+const esVisibleOrganizacion = () => {
     var visible = false;
 
     if (role !== null && role !== undefined) {
-        if (role === entities.idOrganizacion || role === entities.idAdmin ) {
+        if (role === entities.idOrganizacion ) {
             visible = true;
         }
     }
@@ -98,6 +100,6 @@ export default {
     validarUsuario,
     esVisible,
     esVisibleAdmin,
-    esVisibleSecretario,
+    esVisibleOrganizacion,
     esSecretarioAdmin,
 }; 
