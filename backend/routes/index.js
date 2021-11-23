@@ -64,6 +64,6 @@ module.exports = (app) => {
 
   // MercadoPago
   app.post('/api/donaciones/crear', mercadopagoAPI.createPreference);
-  app.post('/api/donaciones/suscripcionPlan', mercadopagoAPI.createPlan);
+  app.post('/api/donaciones/suscripcionPlan', mercadopagoAPI.createPreference);
 }
 

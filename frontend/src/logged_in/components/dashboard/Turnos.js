@@ -256,7 +256,8 @@ export default function MaterialTableDemo() {
       },
       {
         title: 'Iniciativas',
-        field: 'iniciativa'
+        field: 'iniciativa',
+        editable: 'never',
       },
       {
         title: 'Estado',
@@ -292,7 +293,7 @@ export default function MaterialTableDemo() {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Turnos"
+      title="Eventos"
       columns={state.columns}
       data={state.data}
       localization={{
