@@ -75,6 +75,7 @@ export const loginUser = async function(user)  {
         localStorage.setItem("x", data.token);
         localStorage.setItem("r", data.rol);
         localStorage.setItem("m", data.email);
+        localStorage.setItem("p", data.id);
       }
       let result = {
           success: (response.status === 200 ? true : false),

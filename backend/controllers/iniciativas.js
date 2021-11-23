@@ -127,10 +127,16 @@ module.exports = {
      },
     listarPorOrganizacion(req, res) {
         var parametros = {
-            organizacion: req.params.idOrganizacion
+            organizacion: req.params.organizacion
         }
         return iniciativas
-            .findAll({ where: { organizacion: parametros.organizacion } })
+            .findAll({ 
+                include: [{
+                    all: true,
+                    nested: true
+                }],
+                where: { organizacion: parametros.organizacion } 
+            })
             .then(result => res.status(200).send(result))
             .catch(error => res.status(400).send({ message: "Error al intentar buscar las iniciativas.", error }))
     },

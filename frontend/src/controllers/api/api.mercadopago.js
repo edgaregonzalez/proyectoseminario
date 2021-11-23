@@ -45,6 +45,7 @@ export const createPreference = async function(preference)  {
 export const createPlan = async function(plan)  {
   // url
   let url = urlWebServices.createMPPlan;
+  var token = localStorage.getItem('x');
   // Genero formulario con datos a pasar
   let formData = new URLSearchParams();
   
@@ -59,7 +60,8 @@ export const createPlan = async function(plan)  {
         headers: {
           'Accept': 'application/x-www-form-urlencoded',
           'Origin': 'http://localhost:3000/',
-          'Content-type': 'application/x-www-form-urlencoded'
+          'Content-type': 'application/x-www-form-urlencoded',
+          'x-access-token': `${token}`
         },
         body: formData
       });
@@ -70,7 +72,7 @@ export const createPlan = async function(plan)  {
           success: (response.status === 200 ? true : false),
           response: data
       }
-console.log("In api.mercadopago.js: " + result);
+      
       return result;
       
     } catch(e) {
