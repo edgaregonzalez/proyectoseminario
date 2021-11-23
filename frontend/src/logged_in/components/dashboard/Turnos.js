@@ -17,7 +17,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import HeadSection from "../../../logged_out/components/home/HeadSection";
-import { listarEventos } from "../../../controllers/api/api.eventos";
+import { listarEventos, crearEvento } from "../../../controllers/api/api.eventos";
 
 
 const tableIcons = {
@@ -46,18 +46,27 @@ export default function ListadoDeEventos() {
       {
         title: 'Titulo',
         field: 'title',
+        width: '20%',
+      },
+      {
+        title: 'Descripción',
+        field: 'description',
+        width: '40%',
       },
       {
         title: 'Territorio',
         field: 'territory',
+        width: '20%',
       },
       {
         title: 'Iniciativas',
-        field: 'iniciativa'
+        field: 'iniciativa',
+        width: '10%',
       },
       {
         title: 'Estado',
         field: 'state',
+        width: '10%',
       },
     ],
     data: [],
@@ -65,14 +74,34 @@ export default function ListadoDeEventos() {
 
   const [state, setState] = React.useState(null);
 
+  const nuevoEvento = (newData) => {
+    console.log(newData);
+    let eventoData = {
+      titulo: newData.title,
+      descripcion: newData.description,
+      region: newData.territory,
+      estado: true
+    };
+
+    crearEvento(eventoData)
+      .then(response => {
+        if (response.success) {
+          console.log('Evento guardado correctamente');
+        } else {
+          console.log("Error guardando evento");
+        }
+      }); 
+  };
+
   React.useEffect(() => { 
     const getEventos = async () => {
       let data = await listarEventos();
       data.response.forEach(evento => {
         tableData.data.push({
           title: evento.titulo,
+          description: evento.descripcion,
           territory: evento.region,
-          iniciativa: "8",
+          iniciativa: evento.iniciativas,
           state: (evento.estado ? 'Activo' : 'Inactivo')
         })
       });
@@ -132,6 +161,7 @@ export default function ListadoDeEventos() {
               setState((prevState) => {
                 const data = [...prevState.data];
                 data.push(newData);
+                nuevoEvento(newData);
                 return { ...prevState, data };
               });
             }, 600);

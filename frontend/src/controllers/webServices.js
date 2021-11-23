@@ -31,6 +31,7 @@ const urlWebServices = {
      */
     listEventosValidos: rutaBack + "api/eventos/listarValidos",
     getEvento: rutaBack + "api/eventos/ver/id=:id",
+    createEvento: rutaBack + "api/eventos/crear",
 
     /*
      * Iniciativas
@@ -43,7 +44,12 @@ const urlWebServices = {
      * MercadoPago
      */
     createMPPreference: rutaBack + "api/donaciones/crear",
-    createMPPlan: rutaBack + "api/donaciones/suscripcionPlan",
+    createMPPlan: rutaBack + "api/donaciones/suscripcion/crearPlan",
+
+    /*
+     * Mediciones
+     */
+    agregarInteres: rutaBack + "api/medicion/suscripcion",
 
     /*
      * Permissions
