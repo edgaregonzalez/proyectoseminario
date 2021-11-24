@@ -16,7 +16,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { listarIniciativas } from "../../../controllers/api/api.iniciativas";
+import { listarIniciativas, listarIniciativasPorOrganizacion } from "../../../controllers/api/api.iniciativas";
+
 
 
 const tableIcons = {
@@ -66,7 +67,21 @@ export default function ListadoDeIniciativas() {
 
   React.useEffect(() => { 
     const getIniciativas = async () => {
-      let data = await listarIniciativas();
+
+      let data = null;
+
+      let userRole = localStorage.getItem('r');
+
+      if(userRole !== undefined && userRole !== null) {
+        
+        if(userRole == 1) {
+          data = await listarIniciativas();
+        
+        } else if(userRole == 2) {
+          let organizacionId = localStorage.getItem('p');
+          data = await listarIniciativasPorOrganizacion(organizacionId);
+        }
+      }
       
       data.response.forEach(iniciativa => {
         tableData.data.push({
