@@ -16,8 +16,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import HeadSection from "../../../logged_out/components/home/HeadSection";
-import { listarEventos, crearEvento } from "../../../controllers/api/api.eventos";
+import { listarIniciativas, listarIniciativasPorOrganizacion } from "../../../controllers/api/api.iniciativas";
+
 
 
 const tableIcons = {
@@ -40,81 +40,66 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-export default function ListadoDeEventos() { 
+export default function ListadoDeIniciativas() {
   const tableData = {
     columns: [
       {
-        title: 'Titulo',
-        field: 'title',
-        width: '20%',
+        title: 'Nombre',
+        field: 'name',
       },
       {
-        title: 'Descripción',
-        field: 'description',
-        width: '40%',
+        title: 'Organizacion',
+        field: 'organization',
       },
       {
-        title: 'Territorio',
-        field: 'territory',
-        width: '20%',
-      },
-      {
-        title: 'Iniciativas',
-        field: 'iniciativa',
-        width: '10%',
+        title: 'Evento',
+        field: 'event',
       },
       {
         title: 'Estado',
         field: 'state',
-        width: '10%',
       },
     ],
-    data: [],
+    data: []
   }
 
   const [state, setState] = React.useState(null);
 
-  const nuevoEvento = (newData) => {
-    console.log(newData);
-    let eventoData = {
-      titulo: newData.title,
-      descripcion: newData.description,
-      region: newData.territory,
-      estado: true
-    };
-
-    crearEvento(eventoData)
-      .then(response => {
-        if (response.success) {
-          console.log('Evento guardado correctamente');
-        } else {
-          console.log("Error guardando evento");
-        }
-      }); 
-  };
-
   React.useEffect(() => { 
-    const getEventos = async () => {
-      let data = await listarEventos();
-      data.response.forEach(evento => {
+    const getIniciativas = async () => {
+
+      let data = null;
+
+      let userRole = localStorage.getItem('r');
+
+      if(userRole !== undefined && userRole !== null) {
+        
+        if(userRole == 1) {
+          data = await listarIniciativas();
+        
+        } else if(userRole == 2) {
+          let organizacionId = localStorage.getItem('p');
+          data = await listarIniciativasPorOrganizacion(organizacionId);
+        }
+      }
+      
+      data.response.forEach(iniciativa => {
         tableData.data.push({
-          title: evento.titulo,
-          description: evento.descripcion,
-          territory: evento.region,
-          iniciativa: evento.iniciativas,
-          state: (evento.estado ? 'Activo' : 'Inactivo')
+          name: iniciativa.titulo,
+          organization: iniciativa.organizacionDetalle.nombre,
+          event: iniciativa.eventoDetalle.titulo,
+          state: (iniciativa.aprobacion ? 'Activo' : 'Inactivo')
         })
       });
-      console.log(tableData);
       setState(tableData);
     }
-    getEventos();
+    getIniciativas();
   }, []);
 
   return state && (
     <MaterialTable
       icons={tableIcons}
-      title="Eventos"
+      title="Iniciativas"
       columns={state.columns}
       data={state.data}
       localization={{
@@ -154,7 +139,17 @@ export default function ListadoDeEventos() {
         actionsColumnIndex: -1,
       }}
       editable={{
-        
+        onRowAdd: (newData) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve();
+              setState((prevState) => {
+                const data = [...prevState.data];
+                data.push(newData);
+                return { ...prevState, data };
+              });
+            }, 600);
+          }),
       }}
     />
   );

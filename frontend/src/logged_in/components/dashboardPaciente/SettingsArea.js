@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Settings1 from "./Turnos";
 import { Tab, Tabs, Box, Typography } from "@material-ui/core"
 import MedicalHistory from "../dashboard/medicalhistory/HistorialClinico"
+import ListadoDeIniciativas from './Iniciativas';
 
 
 function TabPanel(props) {
@@ -47,15 +48,16 @@ function SettingsArea(props) {
         textColor="primary"
         centered
       >
-       <Tab label="Sacar turno" />
-       <Tab label="Historia clinica" />
+       <Tab label="Eventos" />
+       <Tab label="Iniciativas" />
       </Tabs>
 
       <TabPanel value={value} index={0}>
         <Settings1 pushMessageToSnackbar={pushMessageToSnackbar} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <MedicalHistory/>
+        <ListadoDeIniciativas pushMessageToSnackbar={pushMessageToSnackbar} />
+        
       </TabPanel>
 
     </Fragment>

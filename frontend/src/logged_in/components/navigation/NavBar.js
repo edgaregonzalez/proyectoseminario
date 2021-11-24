@@ -183,14 +183,14 @@ function NavBar(props) {
       onClick: closeMobileDrawer,
       icon: {
         desktop: (
-          <DashboardIcon
+          <EventNoteIcon
             className={
               selectedTab === "Dashboard" ? classes.selectedItem : "text-white"
             }
             fontSize="small"
           />
         ),
-        mobile: <DashboardIcon className="text-white" />
+        mobile: <EventNoteIcon className="text-white" />
       }
     },
    /* {
@@ -208,7 +208,7 @@ function NavBar(props) {
         ),
         mobile: <ImageIcon className="text-white" />
       }
-    }, */
+    }, 
     {
       link: "/c/postsPaciente",
       name: "Recetas paciente",
@@ -224,7 +224,7 @@ function NavBar(props) {
         ),
         mobile: <ImageIcon className="text-white" />
       }
-    },
+    },*/
     {
       link: "/c/users",
       name: "Organizaciones",
